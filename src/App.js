@@ -1,26 +1,54 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class PositionedSnackbar extends React.Component {
+  state = {
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  };
+
+  handleClick = state => () => {
+    this.setState({ open: true, ...state });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  render() {
+    const { vertical, horizontal, open } = this.state;
+    return (
+      <div>
+        <Button onClick={this.handleClick({ vertical: 'top', horizontal: 'center' })}>
+          Top-Center
+        </Button>
+        <Button onClick={this.handleClick({ vertical: 'top', horizontal: 'right' })}>
+          Top-Right
+        </Button>
+        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'right' })}>
+          Bottom-Right
+        </Button>
+        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'center' })}>
+          Bottom-Center
+        </Button>
+        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'left' })}>
+          Bottom-Left
+        </Button>
+        <Button onClick={this.handleClick({ vertical: 'top', horizontal: 'left' })}>
+          Top-Left
+        </Button>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+          onClose={this.handleClose}
+          autoHideDuration={3000}
+          message={<span id="message-id">I love snacks</span>}
+        />
+      </div>
+    );
+  }
 }
 
-export default App;
+export default PositionedSnackbar;
